@@ -17,6 +17,7 @@ BuildRequires:  firewalld-filesystem
 BuildRequires:  systemd
 BuildRequires:  tar
 
+Requires(post): curl
 Requires:       firewalld-filesystem
 Requires(post): firewalld-filesystem
 Requires:       mono-core
@@ -60,6 +61,7 @@ exit 0
 %post
 %systemd_post %{name}.service
 %firewalld_reload
+curl -sS https://curl.haxx.se/ca/cacert.pem | cert-sync /dev/stdin > /dev/null
 
 %preun
 %systemd_preun %{name}.service
