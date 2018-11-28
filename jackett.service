@@ -1,0 +1,15 @@
+[Unit]
+Description=API Support for your favorite torrent trackers
+
+[Service]
+ExecStart=/usr/bin/mono --debug /usr/share/jackett/JackettConsole.exe --NoUpdates
+User=jackett
+Group=jackett
+Restart=on-failure
+RestartSec=5
+
+[Unit]
+After=network.target
+
+[Install]
+WantedBy=multi-user.target
