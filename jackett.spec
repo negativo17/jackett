@@ -34,7 +34,6 @@ scraping & translation logic - removing the burden from other apps.
 
 %prep
 %autosetup -n Jackett
-cp %{SOURCE1} %{SOURCE2} .
 find . -type d -exec chmod 755 {} \;
 find . -type f -exec chmod 644 {} \;
 
