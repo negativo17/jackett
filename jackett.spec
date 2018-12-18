@@ -2,14 +2,14 @@
 %global group %{name}
 
 Name:           jackett
-Version:        0.10.511
+Version:        0.10.523
 Release:        1%{?dist}
 Summary:        API Support for your favorite torrent trackers
 License:        GPLv3
 URL:            https://github.com/Jackett/Jackett
 BuildArch:      noarch
 
-Source0:        https://github.com/Jackett/Jackett/releases/download/v%{version}/Jackett.Binaries.Mono.tar.gz
+Source0:        https://github.com/Jackett/Jackett/releases/download/v%{version}/Jackett.Binaries.Mono.tar.gz#/Jackett.Binaries.Mono.%{version}.tar.gz
 Source10:       %{name}.service
 Source11:       %{name}.xml
 
@@ -78,6 +78,9 @@ curl -sS https://curl.haxx.se/ca/cacert.pem | cert-sync /dev/stdin > /dev/null
 %{_unitdir}/%{name}.service
 
 %changelog
+* Tue Dec 18 2018 Simone Caronni <negativo17@gmail.com> - 0.10.523-1
+- Update to 0.10.523.
+
 * Fri Dec 14 2018 Simone Caronni <negativo17@gmail.com> - 0.10.511-1
 - Update to 0.10.511.
 
