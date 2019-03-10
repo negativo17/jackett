@@ -2,7 +2,7 @@
 %global group %{name}
 
 Name:           jackett
-Version:        0.10.828
+Version:        0.11.2
 Release:        1%{?dist}
 Summary:        API Support for your favorite torrent trackers
 License:        GPLv3
@@ -78,6 +78,9 @@ curl -sS https://curl.haxx.se/ca/cacert.pem | cert-sync /dev/stdin > /dev/null
 %{_unitdir}/%{name}.service
 
 %changelog
+* Sun Mar 10 2019 Simone Caronni <negativo17@gmail.com> - 0.11.2-1
+- Update to 0.11.2.
+
 * Sat Feb 23 2019 Simone Caronni <negativo17@gmail.com> - 0.10.828-1
 - Update to 0.10.828.
 
