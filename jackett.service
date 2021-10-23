@@ -2,7 +2,7 @@
 Description=API Support for your favorite torrent trackers
 
 [Service]
-ExecStart=/usr/bin/mono --debug /usr/share/jackett/JackettConsole.exe --NoUpdates
+ExecStart=/usr/lib64/jackett/jackett --NoUpdates
 User=jackett
 Group=jackett
 Restart=on-failure

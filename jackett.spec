@@ -1,18 +1,39 @@
+%global debug_package %{nil}
+%define _build_id_links none
+
 %global user %{name}
 %global group %{name}
 
+%global dotnet 5.0
+
+%ifarch x86_64
+%global rid x64
+%endif
+
+%ifarch aarch64
+%global rid arm64
+%endif
+
+%ifarch armv7hl
+%global rid arm
+%endif
+
 Name:           jackett
-Version:        0.18.455
+Version:        0.19.34
 Release:        1%{?dist}
 Summary:        API Support for your favorite torrent trackers
 License:        GPLv3
 URL:            https://github.com/Jackett/Jackett
-BuildArch:      noarch
 
-Source0:        https://github.com/Jackett/Jackett/releases/download/v%{version}/Jackett.Binaries.Mono.tar.gz#/Jackett.Binaries.Mono.%{version}.tar.gz
+BuildArch:      x86_64 aarch64 armv7hl
+
+Source0:        https://github.com/Jackett/Jackett/archive/refs/tags/v%{version}.tar.gz#/%{name}-%{version}.tar.gz
 Source10:       %{name}.service
 Source11:       %{name}.xml
+# Allow self-contained, remove Windows only components
+Patch0:         %{name}-fix-build.patch
 
+BuildRequires:  dotnet-sdk-%{dotnet}
 BuildRequires:  firewalld-filesystem
 BuildRequires:  systemd
 BuildRequires:  tar
@@ -20,10 +41,11 @@ BuildRequires:  tar
 Requires(post): curl
 Requires:       firewalld-filesystem
 Requires(post): firewalld-filesystem
-Requires:       mono-core
 Requires:       libmediainfo
 Requires(pre):  shadow-utils
 Requires:       libcurl
+
+Obsoletes:      %{name} < %{version}-%{release}
 
 %description
 Jackett works as a proxy server: it translates queries from apps (Sonarr,
@@ -34,22 +56,34 @@ performing searches. Jackett is a single repository of maintained indexer
 scraping & translation logic - removing the burden from other apps.
 
 %prep
-%autosetup -n Jackett
-find . -type d -exec chmod 755 {} \;
-find . -type f -exec chmod 644 {} \;
+%autosetup -p1 -n Jackett-%{version}
+
+rm -fr src/Jackett.Tray src/Jackett.Service
+
+%build
+export DOTNET_CLI_TELEMETRY_OPTOUT=1
+export DOTNET_SKIP_FIRST_TIME_EXPERIENCE=1
+dotnet publish \
+    --configuration Release \
+    --framework net%{dotnet} \
+    --output _output \
+    --runtime linux-%{rid} \
+    --self-contained \
+    --verbosity normal \
+    src/Jackett.sln
 
 %install
-mkdir -p %{buildroot}%{_datadir}/%{name}
+mkdir -p %{buildroot}%{_libdir}
 mkdir -p %{buildroot}%{_prefix}/lib/firewalld/services/
 mkdir -p %{buildroot}%{_unitdir}
 mkdir -p %{buildroot}%{_sharedstatedir}/%{name}
 
-cp -fr * %{buildroot}%{_datadir}/%{name}
+cp -a _output %{buildroot}%{_libdir}/%{name}
 
 install -m 0644 -p %{SOURCE10} %{buildroot}%{_unitdir}/%{name}.service
 install -m 0644 -p %{SOURCE11} %{buildroot}%{_prefix}/lib/firewalld/services/%{name}.xml
 
-find %{buildroot}%{_datadir}/%{name} -name "*.pdb" -delete
+find %{buildroot} -name "*.pdb" -delete
 
 %pre
 getent group %{group} >/dev/null || groupadd -r %{group}
@@ -73,11 +107,15 @@ curl -sS https://curl.haxx.se/ca/cacert.pem | cert-sync /dev/stdin > /dev/null
 %license LICENSE
 %doc README.md
 %attr(750,%{user},%{group}) %{_sharedstatedir}/%{name}
-%{_datadir}/%{name}
+%{_libdir}/%{name}
 %{_prefix}/lib/firewalld/services/%{name}.xml
 %{_unitdir}/%{name}.service
 
 %changelog
+* Sat Oct 23 2021 Simone Caronni <negativo17@gmail.com> - 0.19.34-1
+- Update to 0.19.34.
+- Switch to .Net source builds.
+
 * Tue Jul 20 2021 Simone Caronni <negativo17@gmail.com> - 0.18.455-1
 - Update to 0.18.455.
 
