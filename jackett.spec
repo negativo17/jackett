@@ -4,7 +4,7 @@
 %global user %{name}
 %global group %{name}
 
-%global dotnet 5.0
+%global dotnet 6.0
 
 %ifarch x86_64
 %global rid x64
@@ -19,7 +19,7 @@
 %endif
 
 Name:           jackett
-Version:        0.20.172
+Version:        0.20.555
 Release:        1%{?dist}
 Summary:        API Support for your favorite torrent trackers
 License:        GPLv3
@@ -27,11 +27,9 @@ URL:            https://github.com/Jackett/Jackett
 
 BuildArch:      x86_64 aarch64 armv7hl
 
-Source0:        https://github.com/Jackett/Jackett/archive/refs/tags/v%{version}.tar.gz#/%{name}-%{version}.tar.gz
+Source0:        https://github.com/Jackett/Jackett/archive/v%{version}.tar.gz#/%{name}-%{version}.tar.gz
 Source10:       %{name}.service
 Source11:       %{name}.xml
-# Allow self-contained, remove Windows only components
-Patch0:         %{name}-fix-build.patch
 
 BuildRequires:  dotnet-sdk-%{dotnet}
 BuildRequires:  firewalld-filesystem
@@ -58,9 +56,8 @@ scraping & translation logic - removing the burden from other apps.
 %prep
 %autosetup -p1 -n Jackett-%{version}
 
-rm -fr src/Jackett.Tray src/Jackett.Service
-
 %build
+pushd src
 export DOTNET_CLI_TELEMETRY_OPTOUT=1
 export DOTNET_SKIP_FIRST_TIME_EXPERIENCE=1
 dotnet publish \
@@ -70,7 +67,8 @@ dotnet publish \
     --runtime linux-%{rid} \
     --self-contained \
     --verbosity normal \
-    src/Jackett.sln
+    Jackett.Server
+popd
 
 %install
 mkdir -p %{buildroot}%{_libdir}
@@ -78,7 +76,7 @@ mkdir -p %{buildroot}%{_prefix}/lib/firewalld/services/
 mkdir -p %{buildroot}%{_unitdir}
 mkdir -p %{buildroot}%{_sharedstatedir}/%{name}
 
-cp -a _output %{buildroot}%{_libdir}/%{name}
+cp -a src/_output %{buildroot}%{_libdir}/%{name}
 
 install -m 0644 -p %{SOURCE10} %{buildroot}%{_unitdir}/%{name}.service
 install -m 0644 -p %{SOURCE11} %{buildroot}%{_prefix}/lib/firewalld/services/%{name}.xml
@@ -95,7 +93,6 @@ exit 0
 %post
 %systemd_post %{name}.service
 %firewalld_reload
-curl -sS https://curl.haxx.se/ca/cacert.pem | cert-sync /dev/stdin > /dev/null
 
 %preun
 %systemd_preun %{name}.service
@@ -112,6 +109,10 @@ curl -sS https://curl.haxx.se/ca/cacert.pem | cert-sync /dev/stdin > /dev/null
 %{_unitdir}/%{name}.service
 
 %changelog
+* Sat Feb 12 2022 Simone Caronni <negativo17@gmail.com> - 0.20.555-1
+- Update to 0.20.555.
+- Fix building and remove old Mono migration leftover.
+
 * Thu Dec 16 2021 Simone Caronni <negativo17@gmail.com> - 0.20.172-1
 - Update to 0.20.172.
 
