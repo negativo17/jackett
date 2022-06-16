@@ -18,9 +18,13 @@
 %global rid arm
 %endif
 
+%if 0%{?fedora} >= 36
+%global __requires_exclude ^liblttng-ust\\.so\\.0.*$
+%endif
+
 Name:           jackett
 Version:        0.20.1197
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        API Support for your favorite torrent trackers
 License:        GPLv3
 URL:            https://github.com/Jackett/Jackett
@@ -109,6 +113,9 @@ exit 0
 %{_unitdir}/%{name}.service
 
 %changelog
+* Thu Jun 16 2022 Simone Caronni <negativo17@gmail.com> - 0.20.1197-2
+- Fix issues with LTTng Userspace Tracer library 2.13+.
+
 * Thu Jun 16 2022 Simone Caronni <negativo17@gmail.com> - 0.20.1197-1
 - Update to 0.20.1197.
 
