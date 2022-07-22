@@ -23,8 +23,8 @@
 %endif
 
 Name:           jackett
-Version:        0.20.1197
-Release:        2%{?dist}
+Version:        0.20.1357
+Release:        1%{?dist}
 Summary:        API Support for your favorite torrent trackers
 License:        GPLv3
 URL:            https://github.com/Jackett/Jackett
@@ -113,6 +113,9 @@ exit 0
 %{_unitdir}/%{name}.service
 
 %changelog
+* Fri Jul 22 2022 Simone Caronni <negativo17@gmail.com> - 0.20.1357-1
+- Update to 0.20.1357.
+
 * Thu Jun 16 2022 Simone Caronni <negativo17@gmail.com> - 0.20.1197-2
 - Fix issues with LTTng Userspace Tracer library 2.13+.
 
