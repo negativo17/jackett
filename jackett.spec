@@ -47,8 +47,6 @@ Requires:       libmediainfo
 Requires(pre):  shadow-utils
 Requires:       libcurl
 
-Obsoletes:      %{name} < %{version}-%{release}
-
 %description
 Jackett works as a proxy server: it translates queries from apps (Sonarr,
 Radarr, SickRage, CouchPotato, Mylar, DuckieTV, etc) into tracker-site-specific
