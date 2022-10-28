@@ -1,3 +1,6 @@
+# mock configuration:
+# - Requires network for running dotnet build
+
 %global debug_package %{nil}
 %define _build_id_links none
 
@@ -24,7 +27,7 @@
 
 Name:           jackett
 Version:        0.20.2163
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        API Support for your favorite torrent trackers
 License:        GPLv3
 URL:            https://github.com/Jackett/Jackett
@@ -111,6 +114,10 @@ exit 0
 %{_unitdir}/%{name}.service
 
 %changelog
+* Fri Oct 28 2022 Simone Caronni <negativo17@gmail.com> - 0.20.2163-2
+- Add note about mock configuration.
+- Trim changelog.
+
 * Tue Oct 25 2022 Simone Caronni <negativo17@gmail.com> - 0.20.2163-1
 - Update to 0.20.2163.
 
@@ -155,57 +162,3 @@ exit 0
 
 * Sun Apr 17 2022 Simone Caronni <negativo17@gmail.com> - 0.20.892-1
 - Update to 0.20.892.
-
-* Thu Mar 24 2022 Simone Caronni <negativo17@gmail.com> - 0.20.756-1
-- Update to 0.20.756.
-- Trim changelog.
-
-* Fri Mar 11 2022 Simone Caronni <negativo17@gmail.com> - 0.20.689-1
-- Update to 0.20.689.
-
-* Thu Mar 10 2022 Simone Caronni <negativo17@gmail.com> - 0.20.684-1
-- Update to 0.20.684.
-
-* Sun Mar 06 2022 Simone Caronni <negativo17@gmail.com> - 0.20.667-1
-- Update to 0.20.667.
-
-* Tue Mar 01 2022 Simone Caronni <negativo17@gmail.com> - 0.20.654-1
-- Update to 0.20.654.
-
-* Mon Feb 28 2022 Simone Caronni <negativo17@gmail.com> - 0.20.643-1
-- Update to 0.20.643.
-
-* Sat Feb 12 2022 Simone Caronni <negativo17@gmail.com> - 0.20.555-1
-- Update to 0.20.555.
-- Fix building and remove old Mono migration leftover.
-
-* Thu Dec 16 2021 Simone Caronni <negativo17@gmail.com> - 0.20.172-1
-- Update to 0.20.172.
-
-* Sat Oct 23 2021 Simone Caronni <negativo17@gmail.com> - 0.19.34-1
-- Update to 0.19.34.
-- Switch to .Net source builds.
-
-* Tue Jul 20 2021 Simone Caronni <negativo17@gmail.com> - 0.18.455-1
-- Update to 0.18.455.
-
-* Sun Jun 20 2021 Simone Caronni <negativo17@gmail.com> - 0.18.364-1
-- Update to 0.18.364.
-
-* Mon Jun 07 2021 Simone Caronni <negativo17@gmail.com> - 0.18.259-1
-- Update to version 0.18.259.
-
-* Sun May 23 2021 Simone Caronni <negativo17@gmail.com> - 0.18.106-1
-- Update to 0.18.106.
-
-* Thu Feb 11 2021 Simone Caronni <negativo17@gmail.com> - 0.17.496-1
-- Update to 0.17.496.
-
-* Tue Feb 02 2021 Simone Caronni <negativo17@gmail.com> - 0.17.449-1
-- Update to 0.17.449.
-
-* Thu Jan 21 2021 Simone Caronni <negativo17@gmail.com> - 0.17.337-1
-- Update to 0.17.337.
-
-* Thu Jan  7 2021 Simone Caronni <negativo17@gmail.com> - 0.17.197-1
-- Update to 0.17.197.
