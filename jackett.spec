@@ -26,8 +26,8 @@
 %endif
 
 Name:           jackett
-Version:        0.20.2163
-Release:        2%{?dist}
+Version:        0.20.2210
+Release:        1%{?dist}
 Summary:        API Support for your favorite torrent trackers
 License:        GPLv3
 URL:            https://github.com/Jackett/Jackett
@@ -114,6 +114,9 @@ exit 0
 %{_unitdir}/%{name}.service
 
 %changelog
+* Sun Nov 06 2022 Simone Caronni <negativo17@gmail.com> - 0.20.2210-1
+- Update to 0.20.2210.
+
 * Fri Oct 28 2022 Simone Caronni <negativo17@gmail.com> - 0.20.2163-2
 - Add note about mock configuration.
 - Trim changelog.
