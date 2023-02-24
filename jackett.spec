@@ -26,7 +26,7 @@
 %endif
 
 Name:           jackett
-Version:        0.20.3017
+Version:        0.20.3288
 Release:        1%{?dist}
 Summary:        API Support for your favorite torrent trackers
 License:        GPLv3
@@ -114,6 +114,9 @@ exit 0
 %{_unitdir}/%{name}.service
 
 %changelog
+* Fri Feb 24 2023 Simone Caronni <negativo17@gmail.com> - 0.20.3288-1
+- Update to v0.20.3288
+
 * Fri Feb 10 2023 Simone Caronni <negativo17@gmail.com> - 0.20.3017-1
 - Update to 0.20.3017.
 
