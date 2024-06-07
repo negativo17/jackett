@@ -7,7 +7,7 @@
 %global user %{name}
 %global group %{name}
 
-%global dotnet 6.0
+%global dotnet 8.0
 
 %ifarch x86_64
 %global rid x64
@@ -26,7 +26,7 @@
 %endif
 
 Name:           jackett
-Version:        0.22.71
+Version:        0.22.76
 Release:        1%{?dist}
 Summary:        API Support for your favorite torrent trackers
 License:        GPLv3
@@ -114,6 +114,9 @@ exit 0
 %{_unitdir}/%{name}.service
 
 %changelog
+* Fri Jun 07 2024 Simone Caronni <negativo17@gmail.com> - 0.22.76-1
+- Update to 0.22.76.
+
 * Thu Jun 06 2024 Simone Caronni <negativo17@gmail.com> - 0.22.71-1
 - Update to 0.22.71.
 
