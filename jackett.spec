@@ -27,7 +27,7 @@
 
 Name:           jackett
 Version:        0.22.2418
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        API Support for your favorite torrent trackers
 License:        GPLv3
 URL:            https://github.com/Jackett/Jackett
@@ -75,6 +75,8 @@ dotnet publish \
     Jackett.Server
 popd
 
+find . -name libcoreclrtraceptprovider.so -delete
+
 %install
 mkdir -p %{buildroot}%{_libdir}
 mkdir -p %{buildroot}%{_prefix}/lib/firewalld/services/
@@ -114,6 +116,9 @@ exit 0
 %{_unitdir}/%{name}.service
 
 %changelog
+* Sat Sep 06 2025 Simone Caronni <negativo17@gmail.com> - 0.22.2418-2
+- Make sure tracerpt is disabled, it requires an old liblttng-ust.
+
 * Thu Sep 04 2025 Simone Caronni <negativo17@gmail.com> - 0.22.2418-1
 - Update to 0.22.2418.
 
