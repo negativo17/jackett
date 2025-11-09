@@ -27,7 +27,7 @@
 
 Name:           jackett
 Version:        0.24.268
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        API Support for your favorite torrent trackers
 License:        GPLv3
 URL:            https://github.com/Jackett/Jackett
@@ -37,6 +37,7 @@ BuildArch:      x86_64 aarch64 armv7hl
 Source0:        https://github.com/Jackett/Jackett/archive/v%{version}.tar.gz#/%{name}-%{version}.tar.gz
 Source10:       %{name}.service
 Source11:       %{name}.xml
+Source12:       %{name}.sysusers.conf
 
 BuildRequires:  dotnet-sdk-%{dotnet}
 BuildRequires:  firewalld-filesystem
@@ -47,7 +48,6 @@ Requires(post): curl
 Requires:       firewalld-filesystem
 Requires(post): firewalld-filesystem
 Requires:       libmediainfo
-Requires(pre):  shadow-utils
 Requires:       libcurl
 
 %description
@@ -87,15 +87,9 @@ cp -a src/_output %{buildroot}%{_libdir}/%{name}
 
 install -m 0644 -p %{SOURCE10} %{buildroot}%{_unitdir}/%{name}.service
 install -m 0644 -p %{SOURCE11} %{buildroot}%{_prefix}/lib/firewalld/services/%{name}.xml
+install -m 0644 -p %{SOURCE12} %{buildroot}%{_sysusersdir}/%{name}.conf
 
 find %{buildroot} -name "*.pdb" -delete
-
-%pre
-getent group %{group} >/dev/null || groupadd -r %{group}
-getent passwd %{user} >/dev/null || \
-    useradd -r -g %{group} -d %{_sharedstatedir}/%{name} -s /sbin/nologin \
-    -c "%{name}" %{user}
-exit 0
 
 %post
 %systemd_post %{name}.service
@@ -113,9 +107,13 @@ exit 0
 %attr(750,%{user},%{group}) %{_sharedstatedir}/%{name}
 %{_libdir}/%{name}
 %{_prefix}/lib/firewalld/services/%{name}.xml
+%{_sysusersdir}/%{name}.conf
 %{_unitdir}/%{name}.service
 
 %changelog
+* Thu Nov 20 2025 Simone Caronni <negativo17@gmail.com> - 0.24.268-2
+- Switch to sysusers.d.
+
 * Sun Nov 09 2025 Simone Caronni <negativo17@gmail.com> - 0.24.268-1
 - Update to v0.24.268.
 
