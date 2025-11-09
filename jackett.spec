@@ -7,7 +7,7 @@
 %global user %{name}
 %global group %{name}
 
-%global dotnet 8.0
+%global dotnet 9.0
 
 %ifarch x86_64
 %global rid x64
@@ -21,13 +21,13 @@
 %global rid arm
 %endif
 
-%if 0%{?fedora} >= 36
+%if 0%{?fedora}
 %global __requires_exclude ^liblttng-ust\\.so\\.0.*$
 %endif
 
 Name:           jackett
-Version:        0.22.2418
-Release:        5%{?dist}
+Version:        0.24.268
+Release:        1%{?dist}
 Summary:        API Support for your favorite torrent trackers
 License:        GPLv3
 URL:            https://github.com/Jackett/Jackett
@@ -116,6 +116,9 @@ exit 0
 %{_unitdir}/%{name}.service
 
 %changelog
+* Sun Nov 09 2025 Simone Caronni <negativo17@gmail.com> - 0.24.268-1
+- Update to v0.24.268.
+
 * Thu Oct 23 2025 Simone Caronni <negativo17@gmail.com> - 0.22.2418-5
 - Update to v0.24.175.
 
