@@ -26,8 +26,8 @@
 %endif
 
 Name:           jackett
-Version:        0.24.268
-Release:        2%{?dist}
+Version:        0.24.336
+Release:        1%{?dist}
 Summary:        API Support for your favorite torrent trackers
 License:        GPLv3
 URL:            https://github.com/Jackett/Jackett
@@ -111,6 +111,9 @@ find %{buildroot} -name "*.pdb" -delete
 %{_unitdir}/%{name}.service
 
 %changelog
+* Thu Nov 20 2025 Simone Caronni <negativo17@gmail.com> - 0.24.336-1
+- Update to 0.24.336.
+
 * Thu Nov 20 2025 Simone Caronni <negativo17@gmail.com> - 0.24.268-2
 - Switch to sysusers.d.
 
