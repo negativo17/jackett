@@ -79,15 +79,13 @@ find . -name libcoreclrtraceptprovider.so -delete
 
 %install
 mkdir -p %{buildroot}%{_libdir}
-mkdir -p %{buildroot}%{_prefix}/lib/firewalld/services/
-mkdir -p %{buildroot}%{_unitdir}
 mkdir -p %{buildroot}%{_sharedstatedir}/%{name}
 
 cp -a src/_output %{buildroot}%{_libdir}/%{name}
 
-install -m 0644 -p %{SOURCE10} %{buildroot}%{_unitdir}/%{name}.service
-install -m 0644 -p %{SOURCE11} %{buildroot}%{_prefix}/lib/firewalld/services/%{name}.xml
-install -m 0644 -p %{SOURCE12} %{buildroot}%{_sysusersdir}/%{name}.conf
+install -D -m 0644 -p %{SOURCE10} %{buildroot}%{_unitdir}/%{name}.service
+install -D -m 0644 -p %{SOURCE11} %{buildroot}%{_prefix}/lib/firewalld/services/%{name}.xml
+install -D -m 0644 -p %{SOURCE12} %{buildroot}%{_sysusersdir}/%{name}.conf
 
 find %{buildroot} -name "*.pdb" -delete
 
