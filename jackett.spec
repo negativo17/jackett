@@ -35,14 +35,16 @@ URL:            https://github.com/Jackett/Jackett
 BuildArch:      x86_64 aarch64 armv7hl
 
 Source0:        https://github.com/Jackett/Jackett/archive/v%{version}.tar.gz#/%{name}-%{version}.tar.gz
-Source10:       %{name}.service
-Source11:       %{name}.xml
-Source12:       %{name}.sysusers.conf
+Source1:        %{name}.sysusers.conf
+Source2:        %{name}.service
+Source3:        %{name}.xml
 
 BuildRequires:  dotnet-sdk-%{dotnet}
 BuildRequires:  firewalld-filesystem
-BuildRequires:  systemd
+BuildRequires:  systemd-rpm-macros
 BuildRequires:  tar
+
+%{?sysusers_requires_compat}
 
 Requires(post): curl
 Requires:       firewalld-filesystem
@@ -83,11 +85,14 @@ mkdir -p %{buildroot}%{_sharedstatedir}/%{name}
 
 cp -a src/_output %{buildroot}%{_libdir}/%{name}
 
-install -D -m 0644 -p %{SOURCE10} %{buildroot}%{_unitdir}/%{name}.service
-install -D -m 0644 -p %{SOURCE11} %{buildroot}%{_prefix}/lib/firewalld/services/%{name}.xml
-install -D -m 0644 -p %{SOURCE12} %{buildroot}%{_sysusersdir}/%{name}.conf
+install -D -m 0644 -p %{SOURCE1} %{buildroot}%{_sysusersdir}/%{name}.conf
+install -D -m 0644 -p %{SOURCE2} %{buildroot}%{_unitdir}/%{name}.service
+install -D -m 0644 -p %{SOURCE3} %{buildroot}%{_prefix}/lib/firewalld/services/%{name}.xml
 
 find %{buildroot} -name "*.pdb" -delete
+
+%pre
+%sysusers_create_compat %{SOURCE1}
 
 %post
 %systemd_post %{name}.service
