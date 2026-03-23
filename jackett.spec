@@ -26,7 +26,7 @@
 %endif
 
 Name:           jackett
-Version:        0.24.1157
+Version:        0.24.1440
 Release:        1%{?dist}
 Summary:        API Support for your favorite torrent trackers
 License:        GPLv3
@@ -109,6 +109,9 @@ find %{buildroot} -name "*.pdb" -delete
 %{_unitdir}/%{name}.service
 
 %changelog
+* Mon Mar 23 2026 Simone Caronni <negativo17@gmail.com> - 0.24.1440-1
+- Update to 0.24.1440.
+
 * Thu Feb 19 2026 Simone Caronni <negativo17@gmail.com> - 0.24.1157-1
 - Update to 0.24.1157.
 
