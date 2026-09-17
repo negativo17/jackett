@@ -7,7 +7,7 @@
 %global user %{name}
 %global group %{name}
 
-%global dotnet 9.0
+%global dotnet 10.0
 
 %ifarch x86_64
 %global rid x64
@@ -27,7 +27,7 @@
 
 Name:           jackett
 Version:        0.24.2601
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        API Support for your favorite torrent trackers
 License:        GPLv3
 URL:            https://github.com/Jackett/Jackett
@@ -49,6 +49,8 @@ Requires(post): firewalld-filesystem
 Requires:       libmediainfo
 Requires(pre):  shadow-utils
 Requires:       libcurl
+# The self-contained runtime dlopen()s ICU, so it is not picked up by the automatic dependency generator
+Requires:       libicu
 
 %description
 Jackett works as a proxy server: it translates queries from apps (Sonarr,
@@ -61,6 +63,11 @@ scraping & translation logic - removing the burden from other apps.
 %prep
 %autosetup -p1 -n Jackett-%{version}
 
+# Upstream still targets net9.0, which is not the SDK the distribution ships and is not available in Fedora 45+.
+# Retarget the projects; this also covers the per-framework property groups that key off the target framework
+# name, not just the TargetFrameworks lists.
+find src -name '*.csproj' -exec sed -i 's/net9\.0/net%{dotnet}/g' {} +
+
 %build
 pushd src
 export DOTNET_CLI_TELEMETRY_OPTOUT=1
@@ -72,6 +79,10 @@ dotnet publish \
     --runtime linux-%{rid} \
     --self-contained \
     --verbosity normal \
+    -p:AssemblyVersion=%{version} \
+    -p:FileVersion=%{version} \
+    -p:InformationalVersion=%{version} \
+    -p:Version=%{version} \
     Jackett.Server
 popd
 
@@ -114,6 +125,11 @@ exit 0
 %{_unitdir}/%{name}.service
 
 %changelog
+* Thu Sep 17 2026 Simone Caronni <negativo17@gmail.com> - 0.24.2601-2
+- Update .NET SDK to 10.0.
+- Require libicu, the self-contained runtime dlopens it.
+- Set the version on the published assemblies.
+
 * Thu Sep 17 2026 Simone Caronni <negativo17@gmail.com> - 0.24.2601-1
 - Update to 0.24.2601.
 
