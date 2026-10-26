@@ -26,8 +26,8 @@
 %endif
 
 Name:           jackett
-Version:        0.24.2601
-Release:        2%{?dist}
+Version:        0.24.2918
+Release:        1%{?dist}
 Summary:        API Support for your favorite torrent trackers
 License:        GPLv3
 URL:            https://github.com/Jackett/Jackett
@@ -125,6 +125,9 @@ exit 0
 %{_unitdir}/%{name}.service
 
 %changelog
+* Mon Oct 26 2026 Simone Caronni <negativo17@gmail.com> - 0.24.2918-1
+- Update to 0.24.2918.
+
 * Thu Sep 17 2026 Simone Caronni <negativo17@gmail.com> - 0.24.2601-2
 - Update .NET SDK to 10.0.
 - Require libicu, the self-contained runtime dlopens it.
